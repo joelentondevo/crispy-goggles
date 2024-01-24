@@ -18,6 +18,11 @@ namespace Crispy_Goggles.Controllers
             return View();
         }
 
+        public IActionResult IndexAuthenticated()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

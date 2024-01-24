@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Crispy_Goggles.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Net;
+using FormEncode.Models;
 
 namespace Crispy_Goggles.Controllers
 {
@@ -15,5 +19,27 @@ namespace Crispy_Goggles.Controllers
         {
             return View();
         }
+
+        public IActionResult IndexAuthenticated()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("LoginAttempt")]
+        
+        public ViewResult LoginAttempt(LoginModel model)
+        {
+            if (model.username == "bing" && model.password == "test01")
+            {
+                return View("IndexAuthenticated");
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+
+
     }
 }

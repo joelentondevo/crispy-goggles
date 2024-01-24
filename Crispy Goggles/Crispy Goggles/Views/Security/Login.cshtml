@@ -2,7 +2,24 @@
     ViewData["Title"] = "Login Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>
+
+    <form name="login" asp-controller="Security" asp-action="LoginAttempt" method="post"
+          enctype="application/x-www-form-urlencoded">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
+
+<script>
+
+</script>
