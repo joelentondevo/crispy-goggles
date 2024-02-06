@@ -8,11 +8,12 @@ namespace Crispy_Goggles.Controllers
 {
     public class SecurityController : Controller
     {
+        private readonly IConfiguration _configuration;
         private readonly ILogger<SecurityController> _logger;
-
-        public SecurityController(ILogger<SecurityController> logger)
+        public SecurityController(ILogger<SecurityController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
@@ -30,6 +31,7 @@ namespace Crispy_Goggles.Controllers
         
         public ViewResult LoginAttempt(LoginModel model)
         {
+            string connectionString = _configuration.GetConnectionString("Backend");
             if (model.username == "bing" && model.password == "test01")
             {
                 return View("IndexAuthenticated");
