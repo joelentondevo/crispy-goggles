@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Net;
 using FormEncode.Models;
+using Microsoft.Data.SqlClient;
+using Azure.Identity;
+
 
 namespace Crispy_Goggles.Controllers
 {
@@ -32,14 +35,36 @@ namespace Crispy_Goggles.Controllers
         public ViewResult LoginAttempt(LoginModel model)
         {
             string connectionString = _configuration.GetConnectionString("Backend");
-            if (model.username == "bing" && model.password == "test01")
+            string queryString = "p_LoginData_f";
+
+            using(SqlConnection connection = new SqlConnection(connectionString))
             {
-                return View("IndexAuthenticated");
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@username", model.username);
+                command.Parameters.AddWithValue("@password", model.password);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    if (reader.HasRows)
+                    {
+                        return View("IndexAuthenticated");
+                    }
+                    else
+                    {
+                        return View("Login");
+                    }
+                }
+                finally 
+                {
+                    reader.Close();
+                }
+
+
+
             }
-            else
-            {
-                return View("Login");
-            }
+
         }
 
 
