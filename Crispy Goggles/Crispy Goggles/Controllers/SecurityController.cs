@@ -1,10 +1,8 @@
-﻿using Crispy_Goggles.Models;
+﻿using FormEncode.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Net;
-using FormEncode.Models;
 using Microsoft.Data.SqlClient;
-using Azure.Identity;
+using System.Data;
+using System.Reflection.PortableExecutable;
 
 
 namespace Crispy_Goggles.Controllers
@@ -31,42 +29,57 @@ namespace Crispy_Goggles.Controllers
 
         [HttpPost]
         [ActionName("LoginAttempt")]
-        
+
         public ViewResult LoginAttempt(LoginModel model)
         {
             string connectionString = _configuration.GetConnectionString("Backend");
             string queryString = "p_LoginData_f";
 
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            DataSet queryResult = RunSP_DS(queryString,
+                ("@username", model.username),
+                ("@password", model.password));
+
+            if (queryResult.Tables.Count != 0 && queryResult.Tables[0].Rows.Count != 0 )
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                return View("IndexAuthenticated");
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+        public DataSet RunSP_DS(string storedProcedure, params (string, object)[] parameters)
+        {
+            string connectionString = _configuration.GetConnectionString("Backend");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(storedProcedure, connection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@username", model.username);
-                command.Parameters.AddWithValue("@password", model.password);
+
+                if (parameters != null)
+                {
+                    foreach ((string parameterKey, object parameterValue) in parameters)
+                    {
+                        command.Parameters.AddWithValue(parameterKey, parameterValue);
+                    }
+                }
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                DataSet dataSet = new DataSet();
                 try
                 {
-                    if (reader.HasRows)
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
-                        return View("IndexAuthenticated");
-                    }
-                    else
-                    {
-                        return View("Login");
+                        adapter.Fill(dataSet);
+                        return dataSet;
                     }
                 }
-                finally 
+                finally
                 {
-                    reader.Close();
+                    connection.Close();
                 }
-
-
-
             }
-
         }
-
-
     }
 }
