@@ -48,6 +48,20 @@ namespace Crispy_Goggles.Controllers
                 return View("Login");
             }
         }
+
+        [HttpPost]
+        [ActionName("RegisterAttempt")]
+
+        public bool RegisterAttempt(LoginModel model)
+        {
+            string connectionString = _configuration.GetConnectionString("Backend");
+            string queryString = "p_RegisterUser_f";
+
+            return RUNSP_Bool(queryString,
+                ("@username", model.username),
+                ("@password", model.password));
+
+        }
         public DataSet RunSP_DS(string storedProcedure, params (string, object)[] parameters)
         {
             string connectionString = _configuration.GetConnectionString("Backend");
@@ -78,6 +92,42 @@ namespace Crispy_Goggles.Controllers
                 finally
                 {
                     connection.Close();
+                }
+            }
+        }
+
+        public bool RUNSP_Bool(string storedProcedure, params (string, object)[] parameters)
+        {
+            string connectionString = _configuration.GetConnectionString("Backend");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(storedProcedure, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                if (parameters != null)
+                {
+                    foreach ((string parameterKey, object parameterValue) in parameters)
+                    {
+                        command.Parameters.AddWithValue(parameterKey, parameterValue);
+                    }
+                }
+
+                connection.Open();
+                bool result = false;
+                try
+                {
+                    command.ExecuteNonQuery();
+                    result = true;
+                    return result;
+                }
+                catch
+                {
+                    return result;
+                }
+                finally 
+                { 
+                    connection.Close(); 
                 }
             }
         }

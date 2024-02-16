@@ -8,13 +8,14 @@
         </div>
     </form>
 
-    <form name="login" asp-controller="Security" asp-action="LoginAttempt" method="post"
+    <form name="login" asp-controller="Security" method="post"
           enctype="application/x-www-form-urlencoded">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Login" asp-action="LoginAttempt">
+        <input type="submit" value="Register"asp-action="RegisterAttempt">
     </form>
 
 </body>
