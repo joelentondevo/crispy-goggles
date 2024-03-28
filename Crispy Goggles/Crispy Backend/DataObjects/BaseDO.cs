@@ -8,29 +8,20 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Crispy_Backend.BusinessObject;
+using Crispy_Backend.ConfigurationObject;
 
 namespace Crispy_Backend.DataObjects
 {
     internal class BaseDO
     {
-        private readonly IConfiguration _configuration;
         private readonly string connectionString;
 
         internal BaseDO()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            configurationBuilder.AddJsonFile("appsettings.json");
-            IConfiguration configuration = configurationBuilder.Build();
-            _configuration = configuration;
-            connectionString = configuration.GetConnectionString("Backend");
+            connectionString = new BackendConfiguration().GetConfig().GetConnectionString("Backend");
         } 
 
-        internal string GetConnectionString()
-        {
-            return connectionString;
-        }
-
-        public DataSet RunSP_DS(string connectionString, string storedProcedure, params (string, object)[] parameters)
+        public DataSet RunSP_DS(string storedProcedure, params (string, object)[] parameters)
         {;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -62,7 +53,7 @@ namespace Crispy_Backend.DataObjects
             }
         }
 
-        public bool RUNSP_Bool(string connectionString, string storedProcedure, params (string, object)[] parameters)
+        public bool RUNSP_Bool(string storedProcedure, params (string, object)[] parameters)
         {
 
             using (SqlConnection connection = new SqlConnection(connectionString))

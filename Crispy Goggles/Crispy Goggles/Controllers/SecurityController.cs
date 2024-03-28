@@ -18,7 +18,6 @@ namespace Crispy_Goggles.Controllers
         {
             _logger = logger;
             _configuration = configuration;
-            userBO = new UserBO();
         }
 
         public IActionResult Login()
@@ -36,7 +35,7 @@ namespace Crispy_Goggles.Controllers
 
         public ViewResult LoginAttempt(LoginModel model)
         {
-            if (userBO.ValidateUsername( model.username, model.password) == true)
+            if (new UserBO().UserExists ( model.username, model.password) == true)
             {
                 return View("IndexAuthenticated");
             }
@@ -51,14 +50,7 @@ namespace Crispy_Goggles.Controllers
 
         public bool RegisterAttempt(LoginModel model)
         {
-            if(userBO.AddNewUser( model.username,model.password) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return new UserBO().AddNewUser(model.username, model.password);
         }
     }
 }
