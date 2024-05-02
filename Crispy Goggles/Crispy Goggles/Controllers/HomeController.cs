@@ -1,6 +1,12 @@
-using Crispy_Goggles.Models;
+using Crispy_Backend.BusinessObject;
+using FormEncode.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Reflection.PortableExecutable;
+using Crispy_Goggles.Models;
 using System.Diagnostics;
+using Crispy_Backend.EntityObjects;
 
 namespace Crispy_Goggles.Controllers
 {
@@ -15,7 +21,13 @@ namespace Crispy_Goggles.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            ProductsModel productsModel = new ProductsModel();
+            productsModel.ProductSet = new ProductBO().GetFullProductList();
+            ProductRecordEO testRecord = new ProductRecordEO();
+            testRecord.Name = "Test";
+            testRecord.Price = (decimal)1.11;
+            productsModel.ProductSet.Add(testRecord);
+            return View(productsModel);
         }
 
         public IActionResult IndexAuthenticated()

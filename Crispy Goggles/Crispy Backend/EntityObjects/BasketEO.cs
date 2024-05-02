@@ -8,12 +8,12 @@ namespace Crispy_Backend.EntityObjects
 {
     public class BasketEO
     {
-        public required List<ItemEO> Items { get; set; }
+        public required List<ProductRecordEO> Items { get; set; }
 
-        public int CalculateTotal()
+        public decimal CalculateTotal()
         {
-            int total = 0;
-            foreach (ItemEO item in Items)
+            decimal total = 0;
+            foreach (ProductRecordEO item in Items)
             {
                 total += item.Price;
             };
@@ -23,7 +23,7 @@ namespace Crispy_Backend.EntityObjects
         public int CountItem(string itemtocount)
         {
             int count = 0;
-            foreach (ItemEO item in Items) 
+            foreach (ProductRecordEO item in Items) 
             {
                 if (item.Name == itemtocount)
                 {

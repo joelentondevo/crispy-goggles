@@ -1,23 +1,24 @@
-﻿ @{
+﻿    @model FormEncode.Models.ProductsModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
 <div class="Foodmenu">
-    <table class="Menutable">
-        <thead>
-            <th> Item</th>
-            <th>Price</th>
-        </thead>
+    <table class="Menutable" asp-controller="Home" method="get" asp-action="getMenu">
+            @foreach(var product in Model.ProductSet) 
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>
+                    @if(product.ItemStock > 0) {
+                        <button>+</button>
+                    }
+                    </td>
+                </tr>
+            }
+            <tr>
+            </tr>
     </table>
 </div>
-
-<style>
-th{
-    padding : 15px;
-}
-</style>
+ 
