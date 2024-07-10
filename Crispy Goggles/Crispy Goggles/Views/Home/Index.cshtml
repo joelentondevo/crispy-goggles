@@ -1,4 +1,4 @@
-﻿    @model FormEncode.Models.ProductsModel
+﻿    @model FormEncode.Models.IndexModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,7 +12,7 @@
                     <td>@product.Price</td>
                     <td>
                     @if(product.ItemStock > 0) {
-                        <button>+</button>
+                        <button class="addbutton" asp>+</button>
                     }
                     </td>
                 </tr>
@@ -21,4 +21,4 @@
             </tr>
     </table>
 </div>
- 
+    

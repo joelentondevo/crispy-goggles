@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crispy_Backend.EntityObjects
+namespace Crispy_Backend.BusinessObject
 {
-    public class BaseEO
+    internal class BasketBO
     {
     }
 }

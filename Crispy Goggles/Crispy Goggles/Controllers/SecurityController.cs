@@ -37,7 +37,7 @@ namespace Crispy_Goggles.Controllers
         {
             if (new UserBO().UserExists ( model.username, model.password) == true)
             {
-                return View("IndexAuthenticated");
+                return View("Index");
             }
             else
             {

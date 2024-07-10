@@ -20,7 +20,7 @@ namespace Crispy_Backend.BusinessObject
     {
         public bool UserExists(string username, string password)
         {
-            UserEO userEO = new UserDO().ValidateUser(username, password);
+            UserLoginEO userEO = new UserDO().ValidateUser(username, password);
             if (userEO != null) 
             { 
                 return true;

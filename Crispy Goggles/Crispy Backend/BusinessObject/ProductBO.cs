@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace Crispy_Backend.BusinessObject
 {
+
     public class ProductBO
-    {
+    {   
+
         public List<ProductRecordEO> GetFullProductList()
         {
             List<ProductRecordEO> productList = new ProductDO().GetMenuItems();
             return productList;
         }
+
+
     }
 }

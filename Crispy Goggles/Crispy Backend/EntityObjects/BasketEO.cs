@@ -8,7 +8,7 @@ namespace Crispy_Backend.EntityObjects
 {
     public class BasketEO
     {
-        public required List<ProductRecordEO> Items { get; set; }
+        public List<ProductRecordEO>? Items { get; set; }
 
         public decimal CalculateTotal()
         {

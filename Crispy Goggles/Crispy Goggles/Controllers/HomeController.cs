@@ -21,18 +21,16 @@ namespace Crispy_Goggles.Controllers
 
         public IActionResult Index()
         {
-            ProductsModel productsModel = new ProductsModel();
-            productsModel.ProductSet = new ProductBO().GetFullProductList();
-            ProductRecordEO testRecord = new ProductRecordEO();
-            testRecord.Name = "Test";
-            testRecord.Price = (decimal)1.11;
-            productsModel.ProductSet.Add(testRecord);
-            return View(productsModel);
+            IndexModel indexModel = new IndexModel();
+            indexModel.ProductSet = new ProductBO().GetFullProductList();
+            return View(indexModel);
         }
 
         public IActionResult IndexAuthenticated()
         {
-            return View();
+            IndexModel indexModel = new IndexModel();
+            indexModel.ProductSet = new ProductBO().GetFullProductList();
+            return View(indexModel);
         }
 
         public IActionResult Privacy()

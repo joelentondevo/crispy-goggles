@@ -11,7 +11,7 @@ namespace Crispy_Backend.DataObjects
 {
     internal class UserDO : BaseDO
     {
-        internal UserEO ValidateUser(string username, string password)
+        internal UserLoginEO ValidateUser(string username, string password)
         {
             DataSet queryResult = new UserDO().RunSP_DS("p_LoginData_f",
             ("@username", username),
@@ -19,7 +19,7 @@ namespace Crispy_Backend.DataObjects
 
             if (queryResult.Tables.Count != 0 && queryResult.Tables[0].Rows.Count != 0)
             {
-                UserEO UserInfo = new UserEO();
+                UserLoginEO UserInfo = new UserLoginEO();
                 UserInfo.Username = queryResult.Tables[0].Rows[0]["Username"].ToString();
                 UserInfo.Password = queryResult.Tables[0].Rows[0]["Password"].ToString();
                 return UserInfo;
