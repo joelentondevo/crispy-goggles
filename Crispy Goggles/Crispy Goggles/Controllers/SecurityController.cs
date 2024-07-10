@@ -29,6 +29,10 @@ namespace Crispy_Goggles.Controllers
         {
             return View();
         }
+        public IActionResult Index() 
+        { 
+            return View(); 
+        } 
 
         [HttpPost]
         [ActionName("LoginAttempt")]
@@ -37,7 +41,9 @@ namespace Crispy_Goggles.Controllers
         {
             if (new UserBO().UserExists ( model.username, model.password) == true)
             {
-                return View("Index");
+                IndexModel indexModel = new IndexModel();
+                indexModel.ProductSet = new ProductBO().GetFullProductList();
+                return View("./Views/Home/Index.cshtml", indexModel);
             }
             else
             {

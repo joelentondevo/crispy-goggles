@@ -29,6 +29,24 @@ namespace Crispy_Backend.DataObjects
                 return null;
             }
         }
+        //WIP Get user info for session
+        internal UserSessionEO GetUserSessionInfo(string username, string password)
+        {
+            DataSet queryResult = new UserDO().RunSP_DS("p_LoginData_f",
+            ("@username", username));
+
+            if (queryResult.Tables.Count != 0 && queryResult.Tables[0].Rows.Count != 0)
+            {
+                UserSessionEO UserInfo = new UserSessionEO();
+                UserInfo.Username = queryResult.Tables[0].Rows[0]["Username"].ToString();
+                UserInfo.UserID = (int)queryResult.Tables[0].Rows[0]["ID"];
+                return UserInfo;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         internal bool AddUser(string username, string password)
         {
