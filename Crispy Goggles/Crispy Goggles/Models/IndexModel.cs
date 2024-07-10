@@ -10,6 +10,6 @@
         public List<ProductRecordEO> ProductSet { get; set; }
         public BasketEO Basket { get; set; }
 
-        public UserLoginEO User { get; set; }
+        public UserSessionEO User { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace Crispy_Backend.BusinessObject
             UserLoginEO userEO = new UserDO().ValidateUser(username, password);
             if (userEO != null) 
             { 
+
                 return true;
             }
             else 
@@ -41,6 +42,12 @@ namespace Crispy_Backend.BusinessObject
             {
                 return false;
             }
+        }
+
+        public UserSessionEO GetUser(string username, string password)
+        { 
+            UserSessionEO userSessionEO = new UserDO().GetUserSessionInfo(username, password);
+            return userSessionEO;
         }
     }
 }

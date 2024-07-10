@@ -17,6 +17,12 @@
                     </td>
                 </tr>
             }
+        @if (Model.User?.Username != null)
+        {
+            <tr>
+                <td>@Model.User.Username</td>
+            </tr>
+        }
             <tr>
             </tr>
     </table>

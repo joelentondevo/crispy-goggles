@@ -33,7 +33,8 @@ namespace Crispy_Backend.DataObjects
         internal UserSessionEO GetUserSessionInfo(string username, string password)
         {
             DataSet queryResult = new UserDO().RunSP_DS("p_LoginData_f",
-            ("@username", username));
+            ("@username", username),
+            ("@password", password));
 
             if (queryResult.Tables.Count != 0 && queryResult.Tables[0].Rows.Count != 0)
             {

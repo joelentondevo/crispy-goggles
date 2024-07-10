@@ -43,6 +43,7 @@ namespace Crispy_Goggles.Controllers
             {
                 IndexModel indexModel = new IndexModel();
                 indexModel.ProductSet = new ProductBO().GetFullProductList();
+                indexModel.User = new UserBO().GetUser(model.username, model.password);
                 return View("./Views/Home/Index.cshtml", indexModel);
             }
             else
