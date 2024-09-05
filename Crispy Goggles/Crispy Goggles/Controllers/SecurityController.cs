@@ -1,15 +1,19 @@
 ﻿using Crispy_Backend.BusinessObject;
 using FormEncode.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
+using System.Web;
 using System.Data;
 using System.Reflection.PortableExecutable;
+using Microsoft.Identity.Client;
 
 
 namespace Crispy_Goggles.Controllers
 {
     public class SecurityController : Controller
     {
+        public const string SessionUserName = "_Name";
         private readonly ILogger<SecurityController> _logger;
         private readonly IConfiguration _configuration;
         UserBO userBO;
@@ -44,6 +48,15 @@ namespace Crispy_Goggles.Controllers
                 IndexModel indexModel = new IndexModel();
                 indexModel.ProductSet = new ProductBO().GetFullProductList();
                 indexModel.User = new UserBO().GetUser(model.username, model.password);
+                HttpContext.Session.SetString(SessionUserName, model.username.ToString());
+                if(string.IsNullOrEmpty(HttpContext.Session.GetString("_Name")))
+                {
+                    indexModel.SessionTag = HttpContext.Session.GetString("_Name");
+                }
+                else
+                {
+                    indexModel.SessionTag = "Guest";
+                }
                 return View("./Views/Home/Index.cshtml", indexModel);
             }
             else

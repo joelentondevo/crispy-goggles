@@ -43,5 +43,22 @@ namespace Crispy_Goggles.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        [ActionName("BasketAdd")]
+
+        public ViewResult BasketAdd(BasketModel model)
+        {
+            BasketEO UpdatedBasket = new BasketBO().AddItemToBasket(model.Basket, model.Item);
+            return View(UpdatedBasket);
+        }
+
+        [HttpPost]
+        [ActionName("BasketRemove")]
+
+        public ViewResult BasketRemove(BasketModel model)
+        {
+            return null;
+        }
     }
 }
