@@ -9,15 +9,33 @@ namespace Crispy_Backend.BusinessObject
 {
     public class BasketBO
     {
-        public BasketEO AddItemToBasket(BasketEO basket, ProductRecordEO product)
+        public void AddItemToBasket(BasketEO basket, ProductRecordEO product)
         {
-            basket.Items.Add(product);
-            return basket;
+            if (basket.GetItem(product.Product.Name) == null)
+            {
+                ProductInstanceEO productToAdd = new ProductInstanceEO();
+                productToAdd.product.Name = product.Product.Name;
+                productToAdd.product.Price = product.Product.Price;
+                productToAdd.product.Id = product.Product.Id;
+                productToAdd.ProductCount = 1;
+                basket.Items.Add(productToAdd);
+            }
+            else if (basket.GetItem(product.Product.Name) != null)
+            {
+                basket.GetItem(product.Product.Name).ProductCount++;
+            }
         }
 
-        public BasketEO RemoveItemFromBasket(BasketEO basket, ProductEO product)
+        public void RemoveItemFromBasket(BasketEO basket, ProductInstanceEO product)
         {
-            return basket;
+            if (basket.GetItem(product.product.Name).ProductCount > 1)
+            {
+                basket.GetItem(product.product.Name).ProductCount--;
+            }
+            else if (basket.GetItem(product.product.Name).ProductCount == 1)
+            {
+               // basket.Remove(new ProductInstanceEO() { Name == product.Name });
+            }
         }
     }
 }

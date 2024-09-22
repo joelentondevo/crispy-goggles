@@ -18,9 +18,12 @@ namespace Crispy_Backend.DataObjects
             {
                 productList.Add(new ProductRecordEO
                 {
-                    ID = (int)productRecords.Tables[0].Rows[i]["MenuID"],
-                    Name = productRecords.Tables[0].Rows[i]["Name"].ToString(),
-                    Price = (decimal)productRecords.Tables[0].Rows[i]["Price"],
+                    Product = new ProductEO((int)productRecords.Tables[0].Rows[i]["MenuID"],
+                                                      productRecords.Tables[0].Rows[i]["Name"].ToString(),
+                                                      (decimal)productRecords.Tables[0].Rows[i]["Price"]),
+                    //Id = (int)productRecords.Tables[0].Rows[i]["MenuID"],
+                    //Name = productRecords.Tables[0].Rows[i]["Name"].ToString(),
+                    //Price = (decimal)productRecords.Tables[0].Rows[i]["Price"],
                     ItemCategory = (int)productRecords.Tables[0].Rows[i]["ItemCategory"],
                     ItemStock = (int)productRecords.Tables[0].Rows[i]["ItemStock"],
                 });

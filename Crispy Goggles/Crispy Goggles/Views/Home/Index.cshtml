@@ -9,8 +9,8 @@
             @foreach(var product in Model.ProductSet) 
             {
                 <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Price</td>
+                    <td>@product.Product.Name</td>
+                    <td>@product.Product.Price</td>
                     <td>
                     @if(product.ItemStock > 0) {
                         <button class="addbutton" asp>+</button>

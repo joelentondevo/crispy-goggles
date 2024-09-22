@@ -49,8 +49,8 @@ namespace Crispy_Goggles.Controllers
 
         public ViewResult BasketAdd(BasketModel model)
         {
-            BasketEO UpdatedBasket = new BasketBO().AddItemToBasket(model.Basket, model.Item);
-            return View(UpdatedBasket);
+            
+            return View();
         }
 
         [HttpPost]
