@@ -20,11 +20,11 @@ namespace Crispy_Backend.EntityObjects
             return total;
         }
 
-        public ProductInstanceEO GetItem(string ItemToFind)
+        public ProductInstanceEO GetItem(int ItemToFind)
         {
             foreach (ProductInstanceEO item in Items)
             {
-                if (item.product.Name.Equals(ItemToFind))
+                if (item.product.Id.Equals(ItemToFind))
                 {
                     return item;
                 }
