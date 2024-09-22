@@ -45,20 +45,31 @@ namespace Crispy_Goggles.Controllers
         }
 
         [HttpPost]
-        [ActionName("BasketAdd")]
+        [ActionName("AddItemToBasket")]
 
         public ViewResult BasketAdd(BasketModel model)
         {
-            
-            return View();
+            IndexModel RevisedBasketModel = new IndexModel();
+            BasketBO Baskethandler = new BasketBO();
+            BasketEO basket = model.Basket;
+            ProductRecordEO productToAdd = model.Product;
+
+            Baskethandler.RemoveItemFromBasket(basket, productToAdd);
+            return View(RevisedBasketModel);
         }
 
         [HttpPost]
-        [ActionName("BasketRemove")]
+        [ActionName("RemoveItemFromBasket")]
 
         public ViewResult BasketRemove(BasketModel model)
         {
-            return null;
+            IndexModel RevisedBasketModel = new IndexModel();
+            BasketBO Baskethandler = new BasketBO();
+            BasketEO basket = model.Basket;
+            ProductRecordEO productToRemove = model.Product;
+
+            Baskethandler.RemoveItemFromBasket(basket, productToRemove);
+            return View(RevisedBasketModel);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Crispy_Backend.EntityObjects
 {
     public class ProductInstanceEO
     {
-        public ProductEO product {  get; set; }
+        public ProductEO Product {  get; set; }
         public int ProductCount {  get; set; }
     }
 }

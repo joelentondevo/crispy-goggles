@@ -15,7 +15,7 @@ namespace Crispy_Backend.EntityObjects
             decimal total = 0;
             foreach (ProductInstanceEO item in Items)
             {
-                total += item.product.Price;
+                total += item.Product.Price * item.ProductCount;
             };
             return total;
         }
@@ -24,7 +24,7 @@ namespace Crispy_Backend.EntityObjects
         {
             foreach (ProductInstanceEO item in Items)
             {
-                if (item.product.Id.Equals(ItemToFind))
+                if (item.Product.Id.Equals(ItemToFind))
                 {
                     return item;
                 }

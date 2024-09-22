@@ -14,9 +14,9 @@ namespace Crispy_Backend.BusinessObject
             if (basket.GetItem(product.Product.Id) == null)
             {
                 ProductInstanceEO productToAdd = new ProductInstanceEO();
-                productToAdd.product.Name = product.Product.Name;
-                productToAdd.product.Price = product.Product.Price;
-                productToAdd.product.Id = product.Product.Id;
+                productToAdd.Product.Name = product.Product.Name;
+                productToAdd.Product.Price = product.Product.Price;
+                productToAdd.Product.Id = product.Product.Id;
                 productToAdd.ProductCount = 1;
                 basket.Items.Add(productToAdd);
             }
@@ -26,15 +26,22 @@ namespace Crispy_Backend.BusinessObject
             }
         }
 
-        public void RemoveItemFromBasket(BasketEO basket, ProductInstanceEO product)
+        public void RemoveItemFromBasket(BasketEO basket, ProductRecordEO product)
         {
-            if (basket.GetItem(product.product.Id).ProductCount > 1)
+            if (basket.GetItem(product.Product.Id).ProductCount > 1)
             {
-                basket.GetItem(product.product.Id).ProductCount--;
+                basket.GetItem(product.Product.Id).ProductCount--;
             }
-            else if (basket.GetItem(product.product.Id).ProductCount == 1)
+            else if (basket.GetItem(product.Product.Id).ProductCount < 2)
             {
-               // basket.Remove(new ProductInstanceEO() { Name == product.Name });
+                foreach (var Item in basket.Items)
+                {
+                    if(product.Product.Id == Item.Product.Id)
+                    {
+                        basket.Items.Remove(Item);
+                    }
+                }
+                
             }
         }
     }

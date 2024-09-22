@@ -13,7 +13,8 @@
                     <td>@product.Product.Price</td>
                     <td>
                     @if(product.ItemStock > 0) {
-                        <button class="addbutton" asp>+</button>
+                        <button class="removebutton" asp asp-action="AddItemToBasket">-</button>
+                        <button class="addbutton" asp asp-action="AddItemToBasket">+</button>
                     }
                     </td>
                 </tr>
