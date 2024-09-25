@@ -7,6 +7,7 @@ using System.Reflection.PortableExecutable;
 using Crispy_Goggles.Models;
 using System.Diagnostics;
 using Crispy_Backend.EntityObjects;
+using Newtonsoft.Json;
 
 namespace Crispy_Goggles.Controllers
 {
@@ -25,15 +26,17 @@ namespace Crispy_Goggles.Controllers
         {
             IndexModel indexModel = new IndexModel();
             indexModel.ProductSet = new ProductBO().GetFullProductList();
+            if (_contextAccessor.HttpContext.Session.GetString("basket") == null)
+            {
+                indexModel.Basket = new BasketEO(); 
+            }
+            else
+            {
+                indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
+            }
             return View(indexModel);
         }
 
-        public IActionResult IndexAuthenticated()
-        {
-            IndexModel indexModel = new IndexModel();
-            indexModel.ProductSet = new ProductBO().GetFullProductList();
-            return View(indexModel);
-        }
 
         public IActionResult Privacy()
         {
@@ -51,13 +54,13 @@ namespace Crispy_Goggles.Controllers
 
         public ViewResult BasketAdd(BasketModel model)
         {
-            IndexModel RevisedBasketModel = new IndexModel();
+            IndexModel indexmodel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
-            BasketEO basket = model.Basket;
+            BasketEO basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             ProductRecordEO productToAdd = model.Product;
 
             Baskethandler.RemoveItemFromBasket(basket, productToAdd);
-            return View(RevisedBasketModel);
+            return View(indexmodel);
         }
 
         [HttpPost]
@@ -65,13 +68,13 @@ namespace Crispy_Goggles.Controllers
 
         public ViewResult BasketRemove(BasketModel model)
         {
-            IndexModel RevisedBasketModel = new IndexModel();
+            IndexModel indexmodel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
-            BasketEO basket = model.Basket;
+            BasketEO basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             ProductRecordEO productToRemove = model.Product;
 
             Baskethandler.RemoveItemFromBasket(basket, productToRemove);
-            return View(RevisedBasketModel);
+            return View(indexmodel);
         }
     }
 }

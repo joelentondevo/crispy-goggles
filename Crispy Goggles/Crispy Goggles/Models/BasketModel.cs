@@ -8,7 +8,5 @@ namespace Crispy_Goggles.Models
         public ProductRecordEO Product { get; set; }
         public UserSessionEO User { get; set; }
 
-        public String SessionTag { get; set; }
-
     }
 }

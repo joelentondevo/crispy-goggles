@@ -7,6 +7,8 @@ using System.Web;
 using System.Data;
 using System.Reflection.PortableExecutable;
 using Microsoft.Identity.Client;
+using Crispy_Backend.EntityObjects;
+using Newtonsoft.Json;
 
 
 namespace Crispy_Goggles.Controllers
@@ -48,16 +50,19 @@ namespace Crispy_Goggles.Controllers
             {
                 IndexModel indexModel = new IndexModel();
                 indexModel.ProductSet = new ProductBO().GetFullProductList();
-                indexModel.User = new UserBO().GetUser(model.username, model.password);
-                _contextAccessor.HttpContext.Session.SetString("SessionUserName", model.username.ToString());
-                if(string.IsNullOrEmpty(_contextAccessor.HttpContext.Session.GetString("SessionUserName")))
+                if (_contextAccessor.HttpContext.Session.GetString("basket") == null)
                 {
-                    indexModel.SessionTag = "Guest";       
+                    indexModel.Basket = new BasketEO();
                 }
                 else
                 {
-                    indexModel.SessionTag = _contextAccessor.HttpContext.Session.GetString("SessionUserName");
+                    indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
                 }
+                UserSessionEO user = new UserBO().GetUser(model.username, model.password);
+                indexModel.User = user;
+                string userSessionString = JsonConvert.SerializeObject(user);
+                _contextAccessor.HttpContext.Session.SetString("SessionUser", userSessionString);               
+
                 return View("./Views/Home/Index.cshtml", indexModel);
             }
             else
