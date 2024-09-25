@@ -13,15 +13,16 @@ namespace Crispy_Goggles.Controllers
 {
     public class SecurityController : Controller
     {
-        public const string SessionUserName = "_Name";
         private readonly ILogger<SecurityController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _contextAccessor;
         UserBO userBO;
 
-        public SecurityController(ILogger<SecurityController> logger, IConfiguration configuration)
+        public SecurityController(ILogger<SecurityController> logger, IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
             _logger = logger;
             _configuration = configuration;
+            _contextAccessor = contextAccessor;
         }
 
         public IActionResult Login()
@@ -48,14 +49,14 @@ namespace Crispy_Goggles.Controllers
                 IndexModel indexModel = new IndexModel();
                 indexModel.ProductSet = new ProductBO().GetFullProductList();
                 indexModel.User = new UserBO().GetUser(model.username, model.password);
-                HttpContext.Session.SetString(SessionUserName, model.username.ToString());
-                if(string.IsNullOrEmpty(HttpContext.Session.GetString("_Name")))
+                _contextAccessor.HttpContext.Session.SetString("SessionUserName", model.username.ToString());
+                if(string.IsNullOrEmpty(_contextAccessor.HttpContext.Session.GetString("SessionUserName")))
                 {
-                    indexModel.SessionTag = HttpContext.Session.GetString("_Name");
+                    indexModel.SessionTag = "Guest";       
                 }
                 else
                 {
-                    indexModel.SessionTag = "Guest";
+                    indexModel.SessionTag = _contextAccessor.HttpContext.Session.GetString("SessionUserName");
                 }
                 return View("./Views/Home/Index.cshtml", indexModel);
             }
