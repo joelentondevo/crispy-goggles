@@ -18,6 +18,12 @@ namespace Crispy_Backend.BusinessObject
             return productList;
         }
 
+        public ProductRecordEO GetProductByID(int id)
+        {
+            ProductRecordEO productRecordEO = new ProductDO().GetProductFromID(id);
+            return productRecordEO;
+        }
+
 
     }
 }

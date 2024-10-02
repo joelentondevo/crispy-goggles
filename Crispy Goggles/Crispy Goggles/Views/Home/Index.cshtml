@@ -13,8 +13,16 @@
                     <td>@product.Product.Price</td>
                     <td>
                     @if(product.ItemStock > 0) {
-                        <button class="removebutton" asp asp-action="AddItemToBasket">-</button>
-                        <button class="addbutton" asp asp-action="AddItemToBasket">+</button>
+                        <form name="removeitem" asp-controller="Home"  method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                            <button type="submit" class="removebutton" asp-action="RemoveItemFromBasket">-</button>
+                        </form>
+                        <form name="additem" asp-controller="Home" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                            <button type="submit" class="addbutton" asp-action="AddItemToBasket">+</button>
+                        </form>
                     }
                     </td>
                 </tr>
@@ -26,7 +34,35 @@
             </tr>
         }
             <tr>
+                <td>@Model.basketstring</td>
+                <td>@Model.Basket.CalculateTotal</td>
             </tr>
     </table>
 </div>
+<div class="basketTable">
+    <table class="Baskettable" asp-controller="Home">
+        @if(Model.Basket.Items != null)
+        {
+            @foreach (var itemz in Model.Basket.Items)
+            {
+                <tr>
+                    <td>@itemz.Product.Name</td>
+                    <td>@itemz.Product.Price</td>
+                    <td>@itemz.ProductCount</td>
+                </tr>
+            }
+        }
+        else{
+            <tr>
+                <td>empty basket</td>
+            </tr>
+        }
+        
+</div>
+<script language="C#" runat="server">
+    void BtnAddToBasket(productCode)
+    {
+
+    }
+</script>
     

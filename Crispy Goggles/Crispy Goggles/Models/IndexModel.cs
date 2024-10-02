@@ -14,6 +14,8 @@ namespace FormEncode.Models
         public BasketEO Basket { get; set; }
 
         public UserSessionEO User { get; set; }
+
+        public string basketstring { get; set; }
     }
 }
 

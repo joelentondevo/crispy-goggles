@@ -21,14 +21,26 @@ namespace Crispy_Backend.DataObjects
                     Product = new ProductEO((int)productRecords.Tables[0].Rows[i]["MenuID"],
                                                       productRecords.Tables[0].Rows[i]["Name"].ToString(),
                                                       (decimal)productRecords.Tables[0].Rows[i]["Price"]),
-                    //Id = (int)productRecords.Tables[0].Rows[i]["MenuID"],
-                    //Name = productRecords.Tables[0].Rows[i]["Name"].ToString(),
-                    //Price = (decimal)productRecords.Tables[0].Rows[i]["Price"],
                     ItemCategory = (int)productRecords.Tables[0].Rows[i]["ItemCategory"],
                     ItemStock = (int)productRecords.Tables[0].Rows[i]["ItemStock"],
                 });
             }
             return productList;
+        }
+        internal ProductRecordEO GetProductFromID(int ID)
+        {
+            DataSet Product = RunSP_DS("p_GetMenuItemByID_f",
+                ("@Id", ID)
+                );
+            ProductRecordEO productRecordEO = new ProductRecordEO
+            {
+                Product = new ProductEO((int)Product.Tables[0].Rows[0]["MenuID"],
+                                                      Product.Tables[0].Rows[0]["Name"].ToString(),
+                                                      (decimal)Product.Tables[0].Rows[0]["Price"]),
+                ItemCategory = (int)Product.Tables[0].Rows[0]["ItemCategory"],
+                ItemStock = (int)Product.Tables[0].Rows[0]["ItemStock"],
+            };
+        return productRecordEO;
         }
     }
 }
