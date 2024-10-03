@@ -60,6 +60,7 @@ namespace Crispy_Goggles.Controllers
                 }
                 UserSessionEO user = new UserBO().GetUser(model.username, model.password);
                 indexModel.User = user;
+                indexModel.basketTotal = indexModel.Basket.CalculateTotal();
                 string userSessionString = JsonConvert.SerializeObject(user);
                 _contextAccessor.HttpContext.Session.SetString("SessionUser", userSessionString);               
 

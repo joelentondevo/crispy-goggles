@@ -34,6 +34,7 @@ namespace Crispy_Goggles.Controllers
             {
                 indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             }
+            indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             return View(indexModel);
         }
 
@@ -70,6 +71,7 @@ namespace Crispy_Goggles.Controllers
             _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(basket));
             indexModel.Basket = basket;
             indexModel.User = model.User;
+            indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             indexModel.ProductSet = new ProductBO().GetFullProductList();
             return View("./Views/Home/Index.cshtml", indexModel);
         }
@@ -96,6 +98,7 @@ namespace Crispy_Goggles.Controllers
             indexModel.Basket = basket;
             indexModel.User = model.User;
             indexModel.ProductSet = new ProductBO().GetFullProductList();
+            indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             return View("./Views/Home/Index.cshtml", indexModel);
         }
     }

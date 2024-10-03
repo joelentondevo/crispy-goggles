@@ -13,10 +13,13 @@ namespace Crispy_Backend.EntityObjects
         public decimal CalculateTotal()
         {
             decimal total = 0;
-            foreach (ProductInstanceEO item in Items)
+            if (Items != null)
             {
-                total += item.Product.Price * item.ProductCount;
-            };
+                foreach (ProductInstanceEO item in Items)
+                {
+                    total += item.Product.Price * item.ProductCount;
+                };
+            }
             return total;
         }
 

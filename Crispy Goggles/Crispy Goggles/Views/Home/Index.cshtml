@@ -5,42 +5,77 @@
 }
 
 <div class="Foodmenu">
-    <table class="Menutable" asp-controller="Home" method="get" asp-action="getMenu">
+    <table class="Foodmenu" asp-controller="Home" method="get" asp-action="getMenu">
+            <th>Pizza</th>
             @foreach(var product in Model.ProductSet) 
-            {
-                <tr>
-                    <td>@product.Product.Name</td>
-                    <td>@product.Product.Price</td>
-                    <td>
-                    @if(product.ItemStock > 0) {
-                        <form name="removeitem" asp-controller="Home"  method="post"
-                              enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="ProductId" value="@product.Product.Id" />
-                            <button type="submit" class="removebutton" asp-action="RemoveItemFromBasket">-</button>
-                        </form>
-                        <form name="additem" asp-controller="Home" method="post"
-                              enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="ProductId" value="@product.Product.Id" />
-                            <button type="submit" class="addbutton" asp-action="AddItemToBasket">+</button>
-                        </form>
+            @if(product.ItemCategory == 1)
+                {
+                    <tr>
+                        <td>@product.Product.Name</td>
+                        <td>@product.Product.Price</td>
+                        @if(product.ItemStock > 0) {
+                            <td>
+                            <form name="removeitem" asp-controller="Home"  method="post"
+                                  enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                                <button type="submit" class="removebutton" asp-action="RemoveItemFromBasket">-</button>
+                            </form>
+                            </td>
+                            <td>
+                            <form name="additem" asp-controller="Home" method="post"
+                                  enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                                <button type="submit" class="addbutton" asp-action="AddItemToBasket">+</button>
+                            </form>
+                            </td>
+                        }
+
+                    </tr>
+                }
+                <th>Burgers</th>
+                @foreach (var product in Model.ProductSet)
+                    @if (product.ItemCategory == 2)
+                    {
+                        <tr>
+                            <td>@product.Product.Name</td>
+                            <td>@product.Product.Price</td>
+                            @if (product.ItemStock > 0)
+                            {
+                                <td>
+                                    <form name="removeitem" asp-controller="Home" method="post"
+                                          enctype="application/x-www-form-urlencoded">
+                                        <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                                        <button type="submit" class="removebutton" asp-action="RemoveItemFromBasket">-</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form name="additem" asp-controller="Home" method="post"
+                                          enctype="application/x-www-form-urlencoded">
+                                        <input type="hidden" name="ProductId" value="@product.Product.Id" />
+                                        <button type="submit" class="addbutton" asp-action="AddItemToBasket">+</button>
+                                    </form>
+                                </td>
+                            }
+
+                        </tr>
                     }
-                    </td>
-                </tr>
-            }
         @if (Model.User?.Username != null)
         {
             <tr>
                 <td>@Model.User.Username</td>
             </tr>
         }
-            <tr>
-                <td>@Model.basketstring</td>
-                <td>@Model.Basket.CalculateTotal</td>
-            </tr>
     </table>
 </div>
 <div class="basketTable">
     <table class="Baskettable" asp-controller="Home">
+        <tr>
+            <td>Basket</td>
+        </tr>
+        <tr>
+            <td>Total:</td>
+            <td>@Model.basketTotal</td>
+        </tr>
         @if(Model.Basket.Items != null)
         {
             @foreach (var itemz in Model.Basket.Items)
@@ -48,7 +83,21 @@
                 <tr>
                     <td>@itemz.Product.Name</td>
                     <td>@itemz.Product.Price</td>
+                    <td>
+                        <form name="removeitem" asp-controller="Home" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="ProductId" value="@itemz.Product.Id" />
+                            <button type="submit" class="removebutton" asp-action="RemoveItemFromBasket">-</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form name="additem" asp-controller="Home" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="ProductId" value="@itemz.Product.Id" />
+                            <button type="submit" class="addbutton" asp-action="AddItemToBasket">+</button>
+                        </form>
                     <td>@itemz.ProductCount</td>
+                    </td>
                 </tr>
             }
         }

@@ -21,6 +21,16 @@ body {
   margin-bottom: 60px;
 }
 
-table {
-    font-size: 126px;
+.Foodmenu {
+    font-size: 35px;
+    width: 70%;
+    float: left;
+}
+
+
+.basketTable {
+    font-size: 28px;
+    border: 1px solid;
+    width: 25%;
+    float: right;
 }

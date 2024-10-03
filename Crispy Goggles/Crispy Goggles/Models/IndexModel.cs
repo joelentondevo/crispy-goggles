@@ -15,7 +15,7 @@ namespace FormEncode.Models
 
         public UserSessionEO User { get; set; }
 
-        public string basketstring { get; set; }
+        public decimal basketTotal { get; set; }
     }
 }
 
