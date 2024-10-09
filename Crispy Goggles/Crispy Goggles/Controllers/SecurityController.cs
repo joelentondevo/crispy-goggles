@@ -44,7 +44,7 @@ namespace Crispy_Goggles.Controllers
         [HttpPost]
         [ActionName("LoginAttempt")]
 
-        public ViewResult LoginAttempt(LoginModel model)
+        public IActionResult LoginAttempt(LoginModel model)
         {
             if (new UserBO().UserExists ( model.username, model.password) == true)
             {
@@ -62,9 +62,9 @@ namespace Crispy_Goggles.Controllers
                 indexModel.User = user;
                 indexModel.basketTotal = indexModel.Basket.CalculateTotal();
                 string userSessionString = JsonConvert.SerializeObject(user);
-                _contextAccessor.HttpContext.Session.SetString("SessionUser", userSessionString);               
+                _contextAccessor.HttpContext.Session.SetString("SessionUser", userSessionString);
 
-                return View("./Views/Home/Index.cshtml", indexModel);
+                return RedirectToAction("Index", "Home");
             }
             else
             {

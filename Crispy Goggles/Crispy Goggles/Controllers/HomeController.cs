@@ -53,7 +53,7 @@ namespace Crispy_Goggles.Controllers
         [HttpPost]
         [ActionName("AddItemToBasket")]
 
-        public ViewResult BasketAdd(BasketModel model)
+        public IActionResult BasketAdd(BasketModel model)
         {
             IndexModel indexModel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
@@ -73,13 +73,13 @@ namespace Crispy_Goggles.Controllers
             indexModel.User = model.User;
             indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             indexModel.ProductSet = new ProductBO().GetFullProductList();
-            return View("./Views/Home/Index.cshtml", indexModel);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [ActionName("RemoveItemFromBasket")]
 
-        public ViewResult BasketRemove(BasketModel model)
+        public IActionResult BasketRemove(BasketModel model)
         {
             IndexModel indexModel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
@@ -99,7 +99,7 @@ namespace Crispy_Goggles.Controllers
             indexModel.User = model.User;
             indexModel.ProductSet = new ProductBO().GetFullProductList();
             indexModel.basketTotal = indexModel.Basket.CalculateTotal();
-            return View("./Views/Home/Index.cshtml", indexModel);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

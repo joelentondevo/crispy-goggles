@@ -1,6 +1,8 @@
-﻿using Crispy_Backend.EntityObjects;
+﻿using Crispy_Backend.DataObjects;
+using Crispy_Backend.EntityObjects;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +47,44 @@ namespace Crispy_Backend.BusinessObject
 
                 }
             }
+        }
+
+        public void SaveBasket(BasketEO basket, UserSessionEO user) 
+        {
+            BasketEO StoredBasket = GetBasket(user);
+            if (basket.Items.Count > 0)
+            {
+                 foreach (var Item in basket.Items) 
+                {
+                    // if item in stored basket, update
+                    if (StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
+                    {
+                        //update entry with new count
+                    }
+                    if (!StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
+                    {
+                        //add entry for item
+                    }
+
+                }
+                foreach (var StoredItem in StoredBasket.Items)
+                {
+                    if (!basket.Items.Exists(item => item.Product.Id == StoredItem.Product.Id))
+                    {
+                        //remove Item from storage
+                    }
+                }
+            }
+        }
+
+        public BasketEO GetBasket(UserSessionEO user)
+        {
+            BasketEO basket = new BasketEO();
+            if (user != null) 
+            { 
+                basket = new BasketDO().GetBasket(user);
+            }
+            return basket;
         }
     }
 }

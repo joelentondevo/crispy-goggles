@@ -59,16 +59,16 @@
 
                         </tr>
                     }
+    </table>
+</div>
+<div class="basketTable">
+    <table class="Baskettable" asp-controller="Home">
         @if (Model.User?.Username != null)
         {
             <tr>
                 <td>@Model.User.Username</td>
             </tr>
         }
-    </table>
-</div>
-<div class="basketTable">
-    <table class="Baskettable" asp-controller="Home">
         <tr>
             <td>Basket</td>
         </tr>
