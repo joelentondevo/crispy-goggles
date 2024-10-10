@@ -34,14 +34,14 @@ namespace Crispy_Backend.DataObjects
         {
             BasketEO basket = new BasketEO();
             DataSet BasketStorageData = RunSP_DS("p_getBasketData_f", ("@userid", user.UserID));
-            for (int i = 0; i < BasketStorageData.Tables[0].Rows.Count; i++)
+            foreach (DataRow row in BasketStorageData.Tables[0].Rows)
             {
                 basket.Items.Add(new ProductInstanceEO
                 {
-                    Product = new ProductEO((int)BasketStorageData.Tables[0].Rows[i]["MenuID"],
-                                                      BasketStorageData.Tables[0].Rows[i]["Name"].ToString(),
-                                                      (decimal)BasketStorageData.Tables[0].Rows[i]["Price"]),
-                    ProductCount = (int)BasketStorageData.Tables[0].Rows[i]["ProductCount"],
+                    Product = new ProductEO((int)row["MenuID"],
+                                                      row["Name"].ToString(),
+                                                      (int)row["Price"]),
+                    ProductCount = (int)row["ProductCount"],
                 });
             }
             return basket;

@@ -14,15 +14,15 @@ namespace Crispy_Backend.DataObjects
         {
             List<ProductRecordEO> productList = new List<ProductRecordEO>();
             DataSet productRecords = RunSP_DS("p_GetMenu_f");
-            for ( int i = 0; i < productRecords.Tables[0].Rows.Count; i++)
+            foreach (DataRow row in productRecords.Tables[0].Rows)
             {
                 productList.Add(new ProductRecordEO
                 {
-                    Product = new ProductEO((int)productRecords.Tables[0].Rows[i]["MenuID"],
-                                                      productRecords.Tables[0].Rows[i]["Name"].ToString(),
-                                                      (decimal)productRecords.Tables[0].Rows[i]["Price"]),
-                    ItemCategory = (int)productRecords.Tables[0].Rows[i]["ItemCategory"],
-                    ItemStock = (int)productRecords.Tables[0].Rows[i]["ItemStock"],
+                    Product = new ProductEO((int)row["MenuID"],
+                                                      row["Name"].ToString(),
+                                                      (decimal)row["Price"]),
+                    ItemCategory = (int)row["ItemCategory"],
+                    ItemStock = (int)row["ItemStock"],
                 });
             }
             return productList;

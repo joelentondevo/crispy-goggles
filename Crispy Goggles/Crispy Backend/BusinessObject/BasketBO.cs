@@ -54,15 +54,16 @@ namespace Crispy_Backend.BusinessObject
             BasketEO StoredBasket = GetBasket(user);
             if (basket.Items.Count > 0)
             {
+                BasketDO basketDO = new BasketDO();
                  foreach (var Item in basket.Items) 
                 {
                     if (StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
                     {
-                        new BasketDO().AmendBasketItem(Item, user);
+                        basketDO.AmendBasketItem(Item, user);
                     }
                     if (!StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
                     {
-                        new BasketDO().AddBasketItem(Item, user);
+                        basketDO.AddBasketItem(Item, user);
                     }
 
                 }
@@ -70,7 +71,7 @@ namespace Crispy_Backend.BusinessObject
                 {
                     if (!basket.Items.Exists(item => item.Product.Id == StoredItem.Product.Id))
                     {
-                        new BasketDO().RemoveBasketItem(StoredItem, user);
+                        basketDO.RemoveBasketItem(StoredItem, user);
                     }
                 }
             }
