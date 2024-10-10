@@ -11,9 +11,23 @@ namespace Crispy_Backend.DataObjects
 {
     internal class BasketDO : BaseDO
     {
-        internal void SaveBasket(BasketEO basket, UserSessionEO user)
+        internal void AddBasketItem(ProductInstanceEO Item, UserSessionEO user)
         {
-             
+            RUNSP_Bool("p_AddBasketItem_f", ("@userId", user.UserID),
+               ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
+
+        }
+
+            internal void AmendBasketItem(ProductInstanceEO Item, UserSessionEO user)
+        {
+            RUNSP_Bool("p_AmendBasketItem_f", ("@userId", user.UserID),
+               ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
+        }
+
+        internal void RemoveBasketItem(ProductInstanceEO Item, UserSessionEO user)
+        {
+            RUNSP_Bool("p_RemoveBasketItem_f", ("@userId", user.UserID),
+               ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
         }
 
         internal BasketEO GetBasket(UserSessionEO user)

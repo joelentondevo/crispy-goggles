@@ -56,14 +56,13 @@ namespace Crispy_Backend.BusinessObject
             {
                  foreach (var Item in basket.Items) 
                 {
-                    // if item in stored basket, update
                     if (StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
                     {
-                        //update entry with new count
+                        new BasketDO().AmendBasketItem(Item, user);
                     }
                     if (!StoredBasket.Items.Exists(item => item.Product.Id == Item.Product.Id))
                     {
-                        //add entry for item
+                        new BasketDO().AddBasketItem(Item, user);
                     }
 
                 }
@@ -71,7 +70,7 @@ namespace Crispy_Backend.BusinessObject
                 {
                     if (!basket.Items.Exists(item => item.Product.Id == StoredItem.Product.Id))
                     {
-                        //remove Item from storage
+                        new BasketDO().RemoveBasketItem(StoredItem, user);
                     }
                 }
             }
