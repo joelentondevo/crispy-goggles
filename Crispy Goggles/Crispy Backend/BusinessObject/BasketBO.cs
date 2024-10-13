@@ -82,7 +82,7 @@ namespace Crispy_Backend.BusinessObject
             BasketEO basket = new BasketEO();
             if (user != null) 
             { 
-                basket = new BasketDO().GetBasket(user);
+                basket = new BasketDO().GetBasketFromData(user);
             }
             return basket;
         }

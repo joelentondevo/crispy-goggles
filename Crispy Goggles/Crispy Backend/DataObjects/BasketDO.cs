@@ -27,10 +27,10 @@ namespace Crispy_Backend.DataObjects
         internal void RemoveBasketItem(ProductInstanceEO Item, UserSessionEO user)
         {
             RUNSP_Bool("p_RemoveBasketItem_f", ("@userId", user.UserID),
-               ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
+               ("@productId", Item.Product.Id));
         }
 
-        internal BasketEO GetBasket(UserSessionEO user)
+        internal BasketEO GetBasketFromData(UserSessionEO user)
         {
             BasketEO basket = new BasketEO();
             DataSet BasketStorageData = RunSP_DS("p_getBasketData_f", ("@userid", user.UserID));
