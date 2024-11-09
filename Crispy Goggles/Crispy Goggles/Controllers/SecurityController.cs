@@ -50,16 +50,27 @@ namespace Crispy_Goggles.Controllers
             {
                 IndexModel indexModel = new IndexModel();
                 indexModel.ProductSet = new ProductBO().GetFullProductList();
-                if (_contextAccessor.HttpContext.Session.GetString("basket") == null)
+                UserSessionEO user = new UserBO().GetUser(model.username, model.password);
+                indexModel.User = user;
+                BasketEO retrievedBasket = new BasketBO().GetBasket(user);
+                //retrieve all basket items for user
+                if (retrievedBasket != null)
                 {
-                    indexModel.Basket = new BasketEO();
+                    indexModel.Basket = retrievedBasket;
+                    _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(retrievedBasket));
                 }
                 else
                 {
-                    indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
+                    if (_contextAccessor.HttpContext.Session.GetString("basket") == null)
+                    {
+                        indexModel.Basket = new BasketEO();
+                    }
+                    else
+                    {
+                        indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
+                        //save whole basket to user on successful login
+                    }
                 }
-                UserSessionEO user = new UserBO().GetUser(model.username, model.password);
-                indexModel.User = user;
                 indexModel.basketTotal = indexModel.Basket.CalculateTotal();
                 string userSessionString = JsonConvert.SerializeObject(user);
                 _contextAccessor.HttpContext.Session.SetString("SessionUser", userSessionString);

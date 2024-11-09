@@ -11,7 +11,8 @@ namespace Crispy_Backend.BusinessObject
 {
     public class BasketBO
     {
-        public void AddItemToBasket(BasketEO basket, ProductRecordEO product)
+        BasketDO BasketDataObject = new BasketDO();
+        public void AddItemToBasket(BasketEO basket, ProductRecordEO product, UserSessionEO user)
         {
             if (basket.GetItem(product.Product.Id) == null)
             {
@@ -19,20 +20,29 @@ namespace Crispy_Backend.BusinessObject
                 productToAdd.Product = product.Product;
                 productToAdd.ProductCount = 1;
                 basket.Items.Add(productToAdd);
+                if (user.UserID != 0)
+                {
+                    BasketDataObject.AddBasketItem(productToAdd, user);
+                }
             }
             else if (basket.GetItem(product.Product.Id) != null)
             {
                 basket.GetItem(product.Product.Id).ProductCount++;
+                if (user.UserID != 0)
+                {
+                    BasketDataObject.AmendBasketItem(basket.GetItem(product.Product.Id), user);
+                }
             }
         }
 
-        public void RemoveItemFromBasket(BasketEO basket, ProductRecordEO product)
+        public void RemoveItemFromBasket(BasketEO basket, ProductRecordEO product, UserSessionEO user)
         {
             if (basket.GetItem(product.Product.Id) != null)
             {
                 if (basket.GetItem(product.Product.Id).ProductCount > 1)
                 {
                     basket.GetItem(product.Product.Id).ProductCount--;
+                    BasketDataObject.AmendBasketItem(basket.GetItem(product.Product.Id), user);
                 }
                 else if (basket.GetItem(product.Product.Id).ProductCount < 2)
                 {

@@ -57,6 +57,7 @@ namespace Crispy_Goggles.Controllers
         {
             IndexModel indexModel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
+            UserSessionEO user = new UserSessionEO();
             BasketEO basket = new BasketEO()
             {
                 Items = new List<ProductInstanceEO>()
@@ -66,11 +67,15 @@ namespace Crispy_Goggles.Controllers
             { 
                 basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             }
-            ProductRecordEO productToAdd = new ProductBO().GetProductByID(model.ProductId);
-            Baskethandler.AddItemToBasket(basket, productToAdd);
+            if (_contextAccessor.HttpContext.Session.GetString("SessionUser") != null)
+            {
+                user = JsonConvert.DeserializeObject<UserSessionEO>(_contextAccessor.HttpContext.Session.GetString("SessionUser"));
+            }
+                ProductRecordEO productToAdd = new ProductBO().GetProductByID(model.ProductId);
+            Baskethandler.AddItemToBasket(basket, productToAdd, user);
             _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(basket));
             indexModel.Basket = basket;
-            indexModel.User = model.User;
+            indexModel.User = user;
             indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             indexModel.ProductSet = new ProductBO().GetFullProductList();
             return RedirectToAction("Index", "Home");
@@ -83,6 +88,7 @@ namespace Crispy_Goggles.Controllers
         {
             IndexModel indexModel = new IndexModel();
             BasketBO Baskethandler = new BasketBO();
+            UserSessionEO user = new UserSessionEO();
             BasketEO basket = new BasketEO()
             {
                 Items = new List<ProductInstanceEO>()
@@ -92,8 +98,12 @@ namespace Crispy_Goggles.Controllers
             {
                 basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             }
+            if (_contextAccessor.HttpContext.Session.GetString("SessionUser") != null)
+            {
+                user = JsonConvert.DeserializeObject<UserSessionEO>(_contextAccessor.HttpContext.Session.GetString("SessionUser"));
+            }
             ProductRecordEO productToRemove = new ProductBO().GetProductByID(model.ProductId);
-            Baskethandler.RemoveItemFromBasket(basket, productToRemove);
+            Baskethandler.RemoveItemFromBasket(basket, productToRemove, user);
             _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(basket));
             indexModel.Basket = basket;
             indexModel.User = model.User;

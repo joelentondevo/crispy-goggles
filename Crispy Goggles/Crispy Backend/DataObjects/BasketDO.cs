@@ -14,8 +14,7 @@ namespace Crispy_Backend.DataObjects
         internal void AddBasketItem(ProductInstanceEO Item, UserSessionEO user)
         {
             RUNSP_Bool("p_AddBasketItem_f", ("@userId", user.UserID),
-               ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
-
+                ("@productId", Item.Product.Id), ("@productCount", Item.ProductCount));
         }
 
             internal void AmendBasketItem(ProductInstanceEO Item, UserSessionEO user)
@@ -32,17 +31,23 @@ namespace Crispy_Backend.DataObjects
 
         internal BasketEO GetBasketFromData(UserSessionEO user)
         {
-            BasketEO basket = new BasketEO();
-            DataSet BasketStorageData = RunSP_DS("p_getBasketData_f", ("@userid", user.UserID));
-            foreach (DataRow row in BasketStorageData.Tables[0].Rows)
+            BasketEO basket = new BasketEO()
             {
-                basket.Items.Add(new ProductInstanceEO
+                Items = new List<ProductInstanceEO>()
+            };
+            ProductDO productDO = new ProductDO();
+            DataSet BasketStorageData = RunSP_DS("p_getBasketData_f", ("@userid", user.UserID));
+            if (BasketStorageData != null)
+            {
+                foreach (DataRow row in BasketStorageData.Tables[0].Rows)
                 {
-                    Product = new ProductEO((int)row["MenuID"],
-                                                      row["Name"].ToString(),
-                                                      (int)row["Price"]),
-                    ProductCount = (int)row["ProductCount"],
-                });
+                    ProductRecordEO productRecord = productDO.GetProductFromID((int)row["ProductID"]);
+                    basket.Items.Add(new ProductInstanceEO
+                    {
+                        Product = productRecord.Product,
+                        ProductCount = (int)row["ProductCount"],
+                    });
+                }
             }
             return basket;
         }
