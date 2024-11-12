@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crispy Goggles", "Crispy Goggles\Crispy Goggles.csproj", "{1360EC06-18C6-4E21-B5FE-5E6A33BC8CB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crispy Backend", "Crispy Backend\Crispy Backend.csproj", "{5424979F-8D9E-4ED9-91F4-ED0966C04094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crispy Backend", "Crispy Backend\Crispy Backend.csproj", "{5424979F-8D9E-4ED9-91F4-ED0966C04094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

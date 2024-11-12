@@ -68,10 +68,36 @@
             <tr>
                 <td>@Model.User.Username</td>
             </tr>
+            
         }
         <tr>
             <td>Basket</td>
+            @if (Model.Basket.Items != null)
+            {
+                @if (Model.User?.Username != null)
+                {
+                    <td>
+                        <form name="checkout" asp-controller="Purchase" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="Checkout" value="Checkout" />
+                            <button type="submit" class="checkoutButton" asp-action="Initiatecheckout">Checkout</button>
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form name="checkoutguest" asp-controller="Purchase" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="CheckoutGuest" value="CheckoutGuest" />
+                            <button type="submit" class="checkoutguestButton" asp-action="InitiatecheckoutGuest">Checkout as Guest</button>
+                        </form>
+                    </td>
+                }
+                
+            }
         </tr>
+        
         <tr>
             <td>Total:</td>
             <td>@Model.basketTotal</td>

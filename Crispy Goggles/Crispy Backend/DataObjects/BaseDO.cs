@@ -26,8 +26,8 @@ namespace Crispy_Backend.DataObjects
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(storedProcedure, connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
 
+                command.CommandType = System.Data.CommandType.StoredProcedure;
                 if (parameters != null)
                 {
                     foreach ((string parameterKey, object parameterValue) in parameters)

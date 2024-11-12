@@ -34,6 +34,10 @@ namespace Crispy_Goggles.Controllers
             {
                 indexModel.Basket = JsonConvert.DeserializeObject<BasketEO>(_contextAccessor.HttpContext.Session.GetString("basket"));
             }
+            if (_contextAccessor.HttpContext.Session.GetString("SessionUser") != null)
+            {
+                indexModel.User = JsonConvert.DeserializeObject<UserSessionEO>(_contextAccessor.HttpContext.Session.GetString("SessionUser"));
+            }
             indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             return View(indexModel);
         }
@@ -74,10 +78,6 @@ namespace Crispy_Goggles.Controllers
                 ProductRecordEO productToAdd = new ProductBO().GetProductByID(model.ProductId);
             Baskethandler.AddItemToBasket(basket, productToAdd, user);
             _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(basket));
-            indexModel.Basket = basket;
-            indexModel.User = user;
-            indexModel.basketTotal = indexModel.Basket.CalculateTotal();
-            indexModel.ProductSet = new ProductBO().GetFullProductList();
             return RedirectToAction("Index", "Home");
         }
 
@@ -105,10 +105,6 @@ namespace Crispy_Goggles.Controllers
             ProductRecordEO productToRemove = new ProductBO().GetProductByID(model.ProductId);
             Baskethandler.RemoveItemFromBasket(basket, productToRemove, user);
             _contextAccessor.HttpContext.Session.SetString("basket", JsonConvert.SerializeObject(basket));
-            indexModel.Basket = basket;
-            indexModel.User = model.User;
-            indexModel.ProductSet = new ProductBO().GetFullProductList();
-            indexModel.basketTotal = indexModel.Basket.CalculateTotal();
             return RedirectToAction("Index", "Home");
         }
     }
